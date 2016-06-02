@@ -29,6 +29,7 @@ if __name__== "__main__":
 
     pdbParser = PDBHelixParser("test/1bm1.pdb")
     pdbParser.parse_pdb_file()
+    structure = pdbParser.structure         # The whole structure of the PDB file
     print("Parsed PDB file succesfully")
     raw_helices = pdbParser.proteinHelixSequences
 

@@ -13,6 +13,7 @@ class PDBHelixParser(object):
         self.totalLength = 0
         self.alphaHelix = 0
         self.helices = []
+        self.structure
         self.proteinHelixSequences = []
         self.alphaHelixPositions = []
         self.aminoAcidDict = {"ALA": "A", "GLY": "G", "PHE": "F", "ILE": "I", "MET": "M", "LEU": "L", "PRO": "P", "VAL": "V",
@@ -82,6 +83,7 @@ class PDBHelixParser(object):
         # Parse the structure with a PDBParser object
         pdbParser = PDBParser()
         structure = pdbParser.get_structure("pdbFile", self.file)
+        self.structure = structure
 
         # For every helix tuple, extract the residues and store them in helixSequences
         for helix in helices:
