@@ -13,7 +13,7 @@ class PDBHelixParser(object):
         self.totalLength = 0
         self.alphaHelix = 0
         self.helices = []
-        self.structure
+        self.structure = None
         self.proteinHelixSequences = []
         self.alphaHelixPositions = []
         self.aminoAcidDict = {"ALA": "A", "GLY": "G", "PHE": "F", "ILE": "I", "MET": "M", "LEU": "L", "PRO": "P", "VAL": "V",
