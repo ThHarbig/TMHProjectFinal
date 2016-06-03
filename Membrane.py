@@ -27,8 +27,8 @@ class MembranePlacer(object):
     #def shiftMembrane(self):
 
     def score(self):
-        hydrophobic_residues = ["Phe", "Gly", "Ile", "Leu", "Mis", "Val", "Trp", "Thr"]
-        hydrophilic_residues = ["Ala", "Cys", "Asp", "Glu", "His", "Lys", "Asn", "Pro", "Gln", "Arg", "Ser", "Thr"]
+        hydrophobic_residues = ["PHE", "GLY", "ILE", "LEU", "MIS", "VAL", "TRP", "THR"]
+        hydrophilic_residues = ["ALA", "CYS", "ASP", "GLU", "HIS", "LYS", "ASN", "PRO", "GLN", "ARN", "SER", "THR"]
         hphobcount=0
         hphilcount=0
         for residue in self.structure.get_residues():
@@ -39,11 +39,12 @@ class MembranePlacer(object):
                 down=coordinates-self.lowermembrane
                 first=up.dot(self.uppermembrane)
                 second=down.dot(self.lowermembrane)
+                print(residue.get_resname())
                 if (first<0 and second>0) or (first>0 and second<0):
-                    if hydrophilic_residues.__contains__(residue):
+                    if residue.get_resname() in hydrophilic_residues:
                         hphilcount+=1
-                    else:
-                        hphobcount+=1
+                    if residue.get_resname() in hydrophobic_residues:
+                        hphobcount += 1
             except KeyError:
                 print("no CA")
         print(hphilcount)
