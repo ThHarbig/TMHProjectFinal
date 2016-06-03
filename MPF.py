@@ -27,8 +27,8 @@ as two planes: one for each ende of the membrane
 if __name__== "__main__":
     # parser = argparse.ArgumentParser(description="Membrane Plane Finder")
     # parser.add_argument('pdb')
-
-    pdbParser = PDBHelixParser("test/1bm1.pdb")
+    file="test/1bm1.pdb"
+    pdbParser = PDBHelixParser(file)
     pdbParser.parse_pdb_file()
     structure = pdbParser.structure         # The whole structure of the PDB file
     print("Parsed PDB file succesfully")
@@ -53,7 +53,7 @@ if __name__== "__main__":
 
     # Choose the helix closest to the normal for width of the membrane
     # Create a plot
-    placer=MembranePlacer(tmh_set,structure,normal)
+    placer=MembranePlacer(tmh_set,structure,normal,file)
     membranes=placer.placeMembrane()
     lower_membrane = membranes[0]
     upper_membrane = membranes[1]
