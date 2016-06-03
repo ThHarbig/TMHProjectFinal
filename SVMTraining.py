@@ -75,7 +75,7 @@ tm_set = []
 
 glob_set = []
 
-# Parse PDB files and extract helices
+# Parse PDB tmh_set and extract helices
 structureCounter = SecondaryStructureCounter("globular_set")
 structureCounter.parse_all_pdb_files()
 

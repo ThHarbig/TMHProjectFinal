@@ -6,6 +6,7 @@ import sys
 from Helix import Helix
 from matplotlib.colors import colorConverter
 from ModuleMethods import  *
+from Membrane import MembranePlacer
 from mpl_toolkits.mplot3d import axes3d
 
 __author__ = "Kevin Menden"
@@ -52,8 +53,10 @@ if __name__== "__main__":
 
     # Choose the helix closest to the normal for width of the membrane
     # Create a plot
-    lower_membrane = tmh_set[0].start_point
-    upper_membrane = tmh_set[0].end_point
+    placer=MembranePlacer(tmh_set,structure,normal)
+    membranes=placer.placeMembrane()
+    lower_membrane = membranes[0]
+    upper_membrane = membranes[1]
 
     fig = plt.figure()
     ax = fig.gca(projection='3d')

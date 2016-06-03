@@ -47,7 +47,7 @@ def searchHelices(pdbtm):
 
 def getHelices(file):
     dict = {}
-    pdb = open("files/pdb" + file + ".ent", "r")
+    pdb = open("tmh_set/pdb" + file + ".ent", "r")
     lines = pdb.readlines()
     for line in lines:
         if line.startswith("HELIX"):

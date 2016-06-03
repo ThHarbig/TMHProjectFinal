@@ -111,7 +111,7 @@ class SecondaryStructureCounter(object):
 
     def parse_all_pdb_files(self):
         """
-        Parse all pdb files in the given directory (self.dir)
+        Parse all pdb tmh_set in the given directory (self.dir)
         """
 
 
