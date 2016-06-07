@@ -19,3 +19,6 @@ class Helix(object):
         self.sequence = ""
         for res in helix_residues:
             self.sequence += self.aminoAcidDict[res.get_resname()]
+        self.positions=[]
+        for res in helix_residues:
+            self.positions.append(res.id[1])

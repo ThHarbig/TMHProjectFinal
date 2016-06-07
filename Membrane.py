@@ -1,6 +1,5 @@
 import numpy as np
-import math
-from Bio.PDB.PDBParser import PDBParser
+
 
 
 class MembranePlacer(object):
@@ -12,6 +11,10 @@ class MembranePlacer(object):
         self.file = file
         self.stepsize=np.array([0,0,0])
         self.score = 0
+        self.tmhPos=[]
+        for helix in self.helices:
+            if self.closeToNormal(helix.vector):
+                self.tmhPos.extend(helix.positions)
 
     def computeMiddlePlane(self):
         averagemiddle = np.array([0., 0., 0.])
@@ -91,7 +94,6 @@ class MembranePlacer(object):
                 y1=B[0]
                 y2=B[1]
                 y3=B[2]
-            print(A,B,score)
         return np.array([x1,x2,x3]),np.array([y1,y2,y3]),score
 
 
@@ -117,40 +119,81 @@ class MembranePlacer(object):
         else:
             return False
 
-    def scoring(self, lower, upper):
+    def scoring(self, A, B):
         hydrophobic_residues = ["PHE", "GLY", "ILE", "LEU", "MET", "VAL", "TRP", "THR"]
         hydrophilic_residues = ["ALA", "CYS", "ASP", "GLU", "HIS", "LYS", "ASN", "PRO", "GLN", "ARN", "SER", "THR"]
         hphobcount = 0
         hphilcount = 0
         helixcount = 0
         loopcount = 0
+        tmhcount=0
+        notTmhCount=0
         for residue in self.structure.get_residues():
             try:
                 atom = residue['CA']
                 coordinates = atom.get_coord()
-                up = coordinates - upper
-                down = coordinates - lower
-                first = up.dot(upper)
-                second = down.dot(lower)
+                up = coordinates - B
+                down = coordinates - A
+                first = up.dot(B)
+                second = down.dot(A)
                 if (first < 0 and second > 0) or (first > 0 and second < 0):
                     if residue.get_resname() in hydrophilic_residues:
                         if residue.id[1] in self.helicalPos:
                             hphilcount += 1
-                        else:
+                    if residue.get_resname in hydrophilic_residues:
+                        if residue.id[1] in self.helicalPos:
                             hphobcount += 1
                     if residue.id[1] in self.helicalPos:
                         helixcount += 1
                     else:
                         loopcount += 1
+                    if residue.id[1] in self.tmhPos:
+                        tmhcount+=1
+                    else:
+                        notTmhCount+=1
+
             except KeyError:
                 continue
-        return (((helixcount) / (loopcount + 1)) + 5*((hphobcount ) / (hphilcount + 1)))
+
+        return (hphobcount  / (hphilcount + 1))+4*(tmhcount/(notTmhCount+1)+(helixcount)/(loopcount+1))
         #return ((helixcount)/(loopcount+1))
+        #return (tmhcount/(notTmhCount+1))
         #return ((hphobcount ) / (hphilcount + 1))
+
+    def positiveInsideRule(self,A,B):
+        positiveAS=["ARG","LYS","HIS"]
+        side1pos=0
+        side1nonpos=0
+        side2pos=0
+        side2nonpos=0
+        for residue in self.structure.get_residues():
+            try:
+                atom = residue['CA']
+                coordinates = atom.get_coord()
+                up = coordinates - A
+                down = coordinates - B
+                first = up.dot(A)
+                second = down.dot(B)
+                if first < 0 and second < 0:
+                    if residue.get_resname() in positiveAS:
+                        side1pos+=1
+                    else:
+                        side1nonpos+=1
+                if first > 0 and second > 0:
+                    if residue.get_resname() in positiveAS:
+                        side2pos += 1
+                    else:
+                        side2nonpos += 1
+            except KeyError:
+                continue
+        if side1pos/side1nonpos+1>side2pos/side2nonpos+1:
+            return 0
+        else:
+            return 1
 
     def placeMembrane(self):
         self.helicalPositions()
         self.computeStepSize()
         result=self.findMembrane()
-        print(result)
-        return result
+        positive=self.positiveInsideRule(result[0],result[1])
+        return result,positive
