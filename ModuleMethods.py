@@ -1,4 +1,6 @@
 import math
+import numpy as np
+from scipy.spatial import distance
 __author__ = "Kevin Menden"
 __date__ = '01.06.2016'
 
@@ -74,9 +76,26 @@ def is_transmembrane_helix(helix):
     :param helix: the helix of interest (sequence)
     :return: True or False
     """
-    clf = joblib.load("tmh_predictor.pkl")
+    clf = joblib.load("tmh_predictor_weighted.pkl")
     feats = calculate_features(helix.sequence)
     return clf.predict([feats])
 
+def deviation_of_positions(helices,normal):
+    distances=[]
+    for h1 in range(len(helices)):
+        for h2 in range(h1+1,len(helices)):
+            d=distance.euclidean(helices[h1].vector,helices[h2].vector)
+            distances.append(d)
+    return np.std(distances)
+
+
+def normalize(vector):
+    """
+    normalizes a vector
+    :param vector:
+    :return:
+    """
+    length = np.sqrt(vector[0] ** 2 + vector[1] ** 2 + vector[2] ** 2)
+    return vector / length
 
 
