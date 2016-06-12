@@ -181,7 +181,7 @@ class MembranePlacer(object):
                 except KeyError:
                     continue
         #scoring function:
-        return (tmhcount-3*loopcount) + (hphobcount-2*hphilcount)
+        return (tmhcount-2*loopcount) + (hphobcount-hphilcount)
         #return (hphobcount/(hphilcount+1))
 
     def proportionOfHelices(self,A,B):

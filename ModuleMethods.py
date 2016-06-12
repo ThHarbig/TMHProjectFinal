@@ -80,15 +80,6 @@ def is_transmembrane_helix(helix):
     feats = calculate_features(helix.sequence)
     return clf.predict([feats])
 
-def deviation_of_positions(helices,normal):
-    distances=[]
-    for h1 in range(len(helices)):
-        for h2 in range(h1+1,len(helices)):
-            d=distance.euclidean(helices[h1].vector,helices[h2].vector)
-            distances.append(d)
-    return np.std(distances)
-
-
 def normalize(vector):
     """
     normalizes a vector

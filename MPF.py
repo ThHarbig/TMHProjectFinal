@@ -24,7 +24,7 @@ as two planes: one for each end of the membrane
 if __name__== "__main__":
     # parser = argparse.ArgumentParser(description="Membrane Plane Finder")
     # parser.add_argument('pdb')
-    file="test/5hi9.pdb"
+    file="test/5bqj.pdb"
     pdbParser = PDBHelixParser(file)
     pdbParser.parse_pdb_file()
     structure = pdbParser.structure         # The whole structure of the PDB file
