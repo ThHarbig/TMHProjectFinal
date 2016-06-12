@@ -1,6 +1,5 @@
 from PDBextractor import SecondaryStructureCounter
 
-__author__ = "Kevin Menden"
 __date__ = '24.05.2016'
 
 from sklearn import svm, cross_validation

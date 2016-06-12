@@ -1,4 +1,3 @@
-__author__ = "Kevin Menden"
 __date__ = '26.04.2016'
 
 import sys, os, glob

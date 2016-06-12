@@ -1,7 +1,6 @@
 import math
 import numpy as np
 from scipy.spatial import distance
-__author__ = "Kevin Menden"
 __date__ = '01.06.2016'
 
 """
@@ -76,7 +75,7 @@ def is_transmembrane_helix(helix):
     :param helix: the helix of interest (sequence)
     :return: True or False
     """
-    clf = joblib.load("tmh_predictor_weighted.pkl")
+    clf = joblib.load("tmh_predictor_final.pkl")
     feats = calculate_features(helix.sequence)
     return clf.predict([feats])
 

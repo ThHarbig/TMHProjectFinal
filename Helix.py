@@ -1,4 +1,3 @@
-__author__ = "Kevin Menden"
 __date__ = '01.06.2016'
 
 import numpy as np
